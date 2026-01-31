@@ -1,4 +1,4 @@
-import { Get, Injectable } from "@nestjs/common";
+import { Get, Injectable, NotFoundException } from "@nestjs/common";
 import { Repository } from "typeorm";
 import { Produto } from "./entites/produto.entity";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -24,6 +24,10 @@ export class ProdutoService {
     const produto = await this.produtoRepository.findOne({
       where: {id_produto: id},
     })
+
+    if (!produto) {
+      throw new NotFoundException("Produto não encontrado")
+    }
 
     return produto;
   }
