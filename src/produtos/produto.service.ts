@@ -1,4 +1,4 @@
-import { Get, Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { Repository } from "typeorm";
 import { Produto } from "./entites/produto.entity";
 import { InjectRepository } from "@nestjs/typeorm";
