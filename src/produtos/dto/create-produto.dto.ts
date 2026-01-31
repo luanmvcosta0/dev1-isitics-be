@@ -5,7 +5,9 @@ export class CreateProdutoDto {
   @ApiProperty({ description: 'Nome do produto', example: 'Mouse' })
   @IsNotEmpty()
   @IsString()
-  @Length(0, 60, {message: "O nome do produto deve ter no máximo 60 caracteres"})
+  @Length(0, 60, {
+    message: 'O nome do produto deve ter no máximo 60 caracteres',
+  })
   nome: string;
 
   @ApiProperty({
@@ -14,7 +16,7 @@ export class CreateProdutoDto {
   })
   @IsNotEmpty()
   @IsString()
-  @Length(0, 170, {message: "A descriçãp deve ter no máximo 170 caracteres"})
+  @Length(0, 170, { message: 'A descriçãp deve ter no máximo 170 caracteres' })
   descricao: string;
 
   @ApiProperty({ description: 'Estoque atual do produto', example: 7 })

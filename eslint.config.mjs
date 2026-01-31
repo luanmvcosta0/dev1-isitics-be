@@ -1,48 +1,35 @@
-import js from '@eslint/js';
-import prettier from 'eslint-plugin-prettier';
-import react from 'eslint-plugin-react';
-import simpleImportSort from 'eslint-plugin-simple-import-sort';
+// @ts-check
+import eslint from '@eslint/js';
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
-export default [
-  js.configs.recommended,
-  ...tseslint.configs.recommended,
+export default tseslint.config(
   {
-    files: ['**/*.ts', '**/*.tsx'],
+    ignores: ['eslint.config.mjs'],
+  },
+  eslint.configs.recommended,
+  ...tseslint.configs.recommendedTypeChecked,
+  eslintPluginPrettierRecommended,
+  {
     languageOptions: {
-      parser: tseslint.parser,
-      ecmaVersion: 2020,
-      sourceType: 'module',
       globals: {
-        ...globals.browser,
         ...globals.node,
-        amd: true,
+        ...globals.jest,
       },
-    },
-    plugins: {
-      react,
-      prettier,
-      'simple-import-sort': simpleImportSort,
-    },
-    settings: {
-      react: {
-        version: 'detect',
+      sourceType: 'commonjs',
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
       },
-      'import/resolver': {
-        node: {
-          paths: ['src'],
-          extensions: ['.js', '.jsx', '.ts', '.tsx'],
-        },
-      },
-    },
-    rules: {
-      'prettier/prettier': ['error'],
-      'react/react-in-jsx-scope': 'off',
-      'react/prop-types': 'off',
-      '@typescript-eslint/explicit-function-return-type': 'off',
-      'simple-import-sort/imports': 'error',
-      'simple-import-sort/exports': 'error',
     },
   },
-];
+  {
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-floating-promises': 'warn',
+      '@typescript-eslint/no-unsafe-argument': 'warn',
+      "prettier/prettier": ["error", { endOfLine: "auto" }],
+    },
+  },
+);

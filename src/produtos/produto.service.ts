@@ -1,8 +1,8 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { Repository } from "typeorm";
-import { Produto } from "./entites/produto.entity";
-import { InjectRepository } from "@nestjs/typeorm";
-import { CreateProdutoDto } from "./dto/create-produto.dto";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { Produto } from './entites/produto.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CreateProdutoDto } from './dto/create-produto.dto';
 
 @Injectable()
 export class ProdutoService {
@@ -17,19 +17,18 @@ export class ProdutoService {
   }
 
   async findAll(): Promise<Produto[]> {
-    return this.produtoRepository.find()
+    return this.produtoRepository.find();
   }
 
   async findOne(id: number): Promise<Produto> {
     const produto = await this.produtoRepository.findOne({
-      where: {id_produto: id},
-    })
+      where: { id_produto: id },
+    });
 
     if (!produto) {
-      throw new NotFoundException("Produto não encontrado")
+      throw new NotFoundException('Produto não encontrado');
     }
 
     return produto;
   }
-
 }
