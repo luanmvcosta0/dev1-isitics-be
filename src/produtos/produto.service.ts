@@ -15,5 +15,9 @@ export class ProdutoService {
     const protudo = this.produtoRepository.create(dto);
     return this.produtoRepository.save(protudo);
   }
-  
+
+  async findAll(): Promise<Produto[]> {
+    return this.produtoRepository.find()
+  }
+
 }
