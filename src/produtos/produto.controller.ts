@@ -12,7 +12,12 @@ export class ProdutoController {
   }
 
   @Get()
-  getAllProduct() {
-    return 'teste';
+  async findAllProducts() {
+    return this.produtoService.findAll();
+  }
+
+  @Get()
+  async findOneProduct(id: number) {
+    return this.produtoService.findOne(id);
   }
 }
