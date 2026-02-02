@@ -11,9 +11,9 @@ export class ProdutoService {
     private readonly produtoRepository: Repository<Produto>,
   ) {}
 
-  async create(dto: CreateProdutoDto): Promise<Produto> {
-    const protudo = this.produtoRepository.create(dto);
-    return this.produtoRepository.save(protudo);
+  async createProduct(dto: CreateProdutoDto): Promise<Produto> {
+    const produto = this.produtoRepository.create(dto);
+    return this.produtoRepository.save(produto);
   }
 
   async findAll(): Promise<Produto[]> {
