@@ -16,4 +16,16 @@ async function bootstrap() {
 
   await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
 }
-bootstrap();
+
+console.log('\x1b[36m%s\x1b[0m', '  ███████╗ ██████╗ ███████╗ ██████╗');
+console.log('\x1b[36m%s\x1b[0m', '  ██╔════╝██╔════╝ ██╔════╝██╔════╝');
+console.log('\x1b[36m%s\x1b[0m', '  ███████╗██║  ███╗█████╗  ██║     ');
+console.log('\x1b[36m%s\x1b[0m', '  ╚════██║██║   ██║██╔══╝  ██║     ');
+console.log('\x1b[36m%s\x1b[0m', '  ███████║╚██████╔╝███████╗╚██████╗');
+console.log('\x1b[36m%s\x1b[0m', '  ╚══════╝ ╚═════╝ ╚══════╝ ╚═════╝');
+console.log('\x1b[36m%s\x1b[0m', '      Sistema de Gestão E-commerce');
+console.log('');
+
+bootstrap().catch((error) => {
+  console.error('❌ Ocorreu um erro ao iniciar a aplicação:', error);
+});
