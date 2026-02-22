@@ -1,9 +1,33 @@
-version: "3.9"
-
 services:
   api:
     build: .
     container_name: dev1-api
     ports:
-      - "3001:3001"
+      - '3001:3001'
+    volumes:
+      - .:/app
+    depends_on:
+      - db_postgres
     restart: unless-stopped
+    environment:
+      - DATABASE_HOST=db_postgres
+      - DATABASE_PORT=5432
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=123456
+      - DATABASE_NAME=postgres
+
+  db_postgres:
+    image: postgres:16
+    container_name: dev1-db
+    ports:
+      - 5433:5432
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
