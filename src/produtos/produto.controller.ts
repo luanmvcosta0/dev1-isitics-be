@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { ProdutoService } from './produto.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
@@ -17,8 +17,8 @@ export class ProdutoController {
     return this.produtoService.findAll();
   }
 
-  @Get()
-  async findOneProduct(id: number) {
+  @Get(':id')
+  async findOneProduct(@Param('id') id: number) {
     return this.produtoService.findOne(id);
   }
 
