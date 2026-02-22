@@ -1,6 +1,7 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Patch, Post } from '@nestjs/common';
 import { ProdutoService } from './produto.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
+import { UpdateProdutoDto } from './dto/update-produto.dto';
 
 @Controller('produto')
 export class ProdutoController {
@@ -19,5 +20,10 @@ export class ProdutoController {
   @Get()
   async findOneProduct(id: number) {
     return this.produtoService.findOne(id);
+  }
+
+  @Patch()
+  async updateProduct(id: number, dto: UpdateProdutoDto) {
+    return this.produtoService.update(id, dto);
   }
 }
