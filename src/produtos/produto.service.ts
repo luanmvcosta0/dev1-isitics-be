@@ -21,9 +21,9 @@ export class ProdutoService {
     return this.produtoRepository.find();
   }
 
-  async findOne(id: number): Promise<Produto> {
+  async findOne(id: string): Promise<Produto> {
     const produto = await this.produtoRepository.findOne({
-      where: { id_produto: id },
+      where: { id: id },
     });
 
     if (!produto) {
@@ -33,9 +33,9 @@ export class ProdutoService {
     return produto;
   }
 
-  async update(id: number, dto: UpdateProdutoDto): Promise<Produto> {
+  async update(id: string, dto: UpdateProdutoDto): Promise<Produto> {
     const produto = await this.produtoRepository.findOne({
-      where: { id_produto: id },
+      where: { id: id },
     });
 
     if (!produto) {

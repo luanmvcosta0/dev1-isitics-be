@@ -18,12 +18,12 @@ export class ProdutoController {
   }
 
   @Get(':id')
-  async findOneProduct(@Param('id') id: number) {
+  async findOneProduct(@Param('id') id: string) {
     return this.produtoService.findOne(id);
   }
 
-  @Patch()
-  async updateProduct(id: number, dto: UpdateProdutoDto) {
+  @Patch(':id')
+  async updateProduct(@Param('id') id: string, @Body() dto: UpdateProdutoDto) {
     return this.produtoService.update(id, dto);
   }
 }
