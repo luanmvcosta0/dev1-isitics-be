@@ -46,4 +46,10 @@ export class ProdutoService {
 
     return await this.produtoRepository.save(produto);
   }
+
+  async remove(id: string) {
+    await this.findOne(id);
+
+    await this.produtoRepository.softDelete(id);
+  }
 }
