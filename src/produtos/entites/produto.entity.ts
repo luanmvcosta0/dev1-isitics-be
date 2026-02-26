@@ -40,6 +40,10 @@ export class Produto {
   data_criacao: Date;
 
   @ApiProperty({ description: 'Data da edição', example: '25/02/2026' })
-  @CreateDateColumn({ name: 'data_criacao', nullable: true })
+  @CreateDateColumn({ name: 'data_edicao', nullable: true })
   data_edicao: Date;
+
+  @ApiProperty({ description: 'Data da remoção', example: '25/02/2026' })
+  @CreateDateColumn({ name: 'data_remocao', nullable: true })
+  data_remocao: Date;
 }
