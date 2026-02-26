@@ -1,5 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Produto {
@@ -29,4 +34,8 @@ export class Produto {
   @ApiProperty({ description: 'Preço com desconto do produto', example: 300 })
   @Column({ type: 'float', name: 'preco_com_desconto', nullable: false })
   preco_com_desconto: number;
+
+  @ApiProperty({ description: 'Data da criação', example: '25/02/2026' })
+  @CreateDateColumn({ name: 'data_criacao' })
+  data_criacao: Date;
 }
