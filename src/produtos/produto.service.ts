@@ -3,6 +3,7 @@ import { Repository } from 'typeorm';
 import { Produto } from './entites/produto.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateProdutoDto } from './dto/create-produto.dto';
+import { UpdateProdutoDto } from './dto/update-produto.dto';
 
 @Injectable()
 export class ProdutoService {
@@ -20,9 +21,9 @@ export class ProdutoService {
     return this.produtoRepository.find();
   }
 
-  async findOne(id: number): Promise<Produto> {
+  async findOne(id: string): Promise<Produto> {
     const produto = await this.produtoRepository.findOne({
-      where: { id_produto: id },
+      where: { id: id },
     });
 
     if (!produto) {
@@ -30,5 +31,25 @@ export class ProdutoService {
     }
 
     return produto;
+  }
+
+  async update(id: string, dto: UpdateProdutoDto): Promise<Produto> {
+    const produto = await this.produtoRepository.findOne({
+      where: { id: id },
+    });
+
+    if (!produto) {
+      throw new NotFoundException('Produto não encontrado');
+    }
+
+    Object.assign(produto, dto);
+
+    return await this.produtoRepository.save(produto);
+  }
+
+  async remove(id: string) {
+    await this.findOne(id);
+
+    await this.produtoRepository.softDelete(id);
   }
 }
