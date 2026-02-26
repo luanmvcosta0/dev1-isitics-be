@@ -2,8 +2,10 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -40,10 +42,10 @@ export class Produto {
   data_criacao: Date;
 
   @ApiProperty({ description: 'Data da edição', example: '25/02/2026' })
-  @CreateDateColumn({ name: 'data_edicao', nullable: true })
+  @UpdateDateColumn({ name: 'data_edicao', nullable: true })
   data_edicao: Date;
 
   @ApiProperty({ description: 'Data da remoção', example: '25/02/2026' })
-  @CreateDateColumn({ name: 'data_remocao', nullable: true })
+  @DeleteDateColumn({ name: 'data_remocao', nullable: true })
   data_remocao: Date;
 }
