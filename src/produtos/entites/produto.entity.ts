@@ -38,4 +38,8 @@ export class Produto {
   @ApiProperty({ description: 'Data da criação', example: '25/02/2026' })
   @CreateDateColumn({ name: 'data_criacao' })
   data_criacao: Date;
+
+  @ApiProperty({ description: 'Data da edição', example: '25/02/2026' })
+  @CreateDateColumn({ name: 'data_criacao', nullable: true })
+  data_edicao: Date;
 }
