@@ -5,7 +5,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 export class Produto {
   @ApiProperty({ description: 'Id do produto', example: 1 })
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id_produto' })
-  id_produto: number;
+  id: string;
 
   @ApiProperty({ description: 'Nome do Produto', example: 'Mouse' })
   @Column({ name: 'nome', length: 60, nullable: false })
