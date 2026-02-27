@@ -10,6 +10,8 @@ import {
 import { ProdutoService } from './produto.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
+import type { PaginateQuery } from 'nestjs-paginate';
+import { Paginate } from 'nestjs-paginate';
 
 @Controller('produto')
 export class ProdutoController {
@@ -21,8 +23,8 @@ export class ProdutoController {
   }
 
   @Get()
-  async findAllProducts() {
-    return this.produtoService.findAll();
+  async findAllProducts(@Paginate() query: PaginateQuery) {
+    return this.produtoService.findAll(query);
   }
 
   @Get(':id')
