@@ -4,7 +4,12 @@ import { Produto } from './entites/produto.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
-import { PaginateConfig } from 'nestjs-paginate';
+import {
+  paginate,
+  PaginateConfig,
+  Paginated,
+  PaginateQuery,
+} from 'nestjs-paginate';
 
 @Injectable()
 export class ProdutoService {
@@ -27,8 +32,12 @@ export class ProdutoService {
     return this.produtoRepository.save(produto);
   }
 
-  async findAll(): Promise<Produto[]> {
-    return this.produtoRepository.find();
+  async findAll(query: PaginateQuery): Promise<Paginated<Produto>> {
+    return paginate(
+      query,
+      this.produtoRepository,
+      ProdutoService.paginateConfig,
+    );
   }
 
   async findOne(id: string): Promise<Produto> {
