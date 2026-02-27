@@ -4,6 +4,7 @@ import { Produto } from './entites/produto.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
+import { PaginateConfig } from 'nestjs-paginate';
 
 @Injectable()
 export class ProdutoService {
@@ -11,6 +12,15 @@ export class ProdutoService {
     @InjectRepository(Produto)
     private readonly produtoRepository: Repository<Produto>,
   ) {}
+
+  public static readonly paginateConfig: PaginateConfig<Produto> = {
+    sortableColumns: ['id', 'nome', 'preco_original', 'preco_com_desconto'],
+    searchableColumns: ['nome', 'descricao'],
+    defaultSortBy: [['data_criacao', 'DESC']],
+    defaultLimit: 10,
+    maxLimit: 20,
+    nullSort: 'last',
+  };
 
   async createProduct(dto: CreateProdutoDto): Promise<Produto> {
     const produto = this.produtoRepository.create(dto);
