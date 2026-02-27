@@ -23,7 +23,7 @@ export class ProdutoService {
     searchableColumns: ['nome', 'descricao'],
     defaultSortBy: [['data_criacao', 'DESC']],
     defaultLimit: 10,
-    maxLimit: 20,
+    maxLimit: 40,
     nullSort: 'last',
   };
 
