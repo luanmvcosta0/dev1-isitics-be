@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class Produto {
+export class Product {
   @ApiProperty({ description: 'Id do produto', example: 1 })
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id_produto' })
   id: string;

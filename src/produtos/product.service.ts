@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Produto } from './entites/produto.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
+import { Product } from './entites/produto.entity';
 import {
   paginate,
   PaginateConfig,
@@ -14,11 +14,11 @@ import {
 @Injectable()
 export class ProductService {
   constructor(
-    @InjectRepository(Produto)
-    private readonly productRepository: Repository<Produto>,
+    @InjectRepository(Product)
+    private readonly productRepository: Repository<Product>,
   ) {}
 
-  public static readonly paginateConfig: PaginateConfig<Produto> = {
+  public static readonly paginateConfig: PaginateConfig<Product> = {
     sortableColumns: ['id', 'nome', 'preco_original', 'preco_com_desconto'],
     searchableColumns: ['nome', 'descricao'],
     defaultSortBy: [['data_criacao', 'DESC']],
@@ -27,12 +27,12 @@ export class ProductService {
     nullSort: 'last',
   };
 
-  async createProduct(dto: CreateProdutoDto): Promise<Produto> {
+  async createProduct(dto: CreateProdutoDto): Promise<Product> {
     const produto = this.productRepository.create(dto);
     return this.productRepository.save(produto);
   }
 
-  async findAll(query: PaginateQuery): Promise<Paginated<Produto>> {
+  async findAll(query: PaginateQuery): Promise<Paginated<Product>> {
     return paginate(
       query,
       this.productRepository,
@@ -40,7 +40,7 @@ export class ProductService {
     );
   }
 
-  async findOne(id: string): Promise<Produto> {
+  async findOne(id: string): Promise<Product> {
     const product = await this.productRepository.findOne({
       where: { id: id },
     });
@@ -52,7 +52,7 @@ export class ProductService {
     return product;
   }
 
-  async update(id: string, dto: UpdateProdutoDto): Promise<Produto> {
+  async update(id: string, dto: UpdateProdutoDto): Promise<Product> {
     const product = await this.productRepository.findOne({
       where: { id: id },
     });
