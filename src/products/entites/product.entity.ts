@@ -9,43 +9,39 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class Produto {
+export class Product {
   @ApiProperty({ description: 'Id do produto', example: 1 })
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id_produto' })
   id: string;
 
   @ApiProperty({ description: 'Nome do Produto', example: 'Mouse' })
   @Column({ name: 'nome', length: 60, nullable: false })
-  nome: string;
+  name: string;
 
   @ApiProperty({
     description: 'Descrição do produto',
     example: 'O Mouse Ergonômico é a escolha ideal para quem busca conforto',
   })
   @Column({ name: 'descricao', length: 150, nullable: false })
-  descricao: string;
+  description: string;
 
   @ApiProperty({ description: 'Estoque atual do produto', example: 7 })
   @Column({ type: 'integer', name: 'estoque_atual', nullable: false })
-  estoque_atual: number;
+  stock: number;
 
   @ApiProperty({ description: 'Preço original do produto', example: 350 })
   @Column({ type: 'float', name: 'preco_original', nullable: false })
-  preco_original: number;
-
-  @ApiProperty({ description: 'Preço com desconto do produto', example: 300 })
-  @Column({ type: 'float', name: 'preco_com_desconto', nullable: false })
-  preco_com_desconto: number;
+  price: number;
 
   @ApiProperty({ description: 'Data da criação', example: '25/02/2026' })
   @CreateDateColumn({ name: 'data_criacao' })
-  data_criacao: Date;
+  created_at: Date;
 
   @ApiProperty({ description: 'Data da edição', example: '25/02/2026' })
   @UpdateDateColumn({ name: 'data_edicao', nullable: true })
-  data_edicao: Date;
+  update_at: Date;
 
   @ApiProperty({ description: 'Data da remoção', example: '25/02/2026' })
   @DeleteDateColumn({ name: 'data_remocao', nullable: true })
-  data_remocao: Date;
+  remove_at: Date;
 }
