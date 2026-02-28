@@ -7,38 +7,38 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ProdutoService } from './product.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 import type { PaginateQuery } from 'nestjs-paginate';
 import { Paginate } from 'nestjs-paginate';
+import { ProductService } from './product.service';
 
 @Controller('produto')
 export class ProductController {
-  constructor(private readonly produtoService: ProdutoService) {}
+  constructor(private readonly productService: ProductService) {}
 
   @Post()
   async createProduct(@Body() dto: CreateProdutoDto) {
-    return this.produtoService.createProduct(dto);
+    return this.productService.createProduct(dto);
   }
 
   @Get()
   async findAllProducts(@Paginate() query: PaginateQuery) {
-    return this.produtoService.findAll(query);
+    return this.productService.findAll(query);
   }
 
   @Get(':id')
   async findOneProduct(@Param('id') id: string) {
-    return this.produtoService.findOne(id);
+    return this.productService.findOne(id);
   }
 
   @Patch(':id')
   async updateProduct(@Param('id') id: string, @Body() dto: UpdateProdutoDto) {
-    return this.produtoService.update(id, dto);
+    return this.productService.update(id, dto);
   }
 
   @Delete(':id')
   async removeProduct(@Param('id') id: string) {
-    return this.produtoService.remove(id);
+    return this.productService.remove(id);
   }
 }
