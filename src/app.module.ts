@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { ProdutoModule } from './produtos/produto.module';
-import { DescontoModule } from './descontos/desconto.module';
+import { CupomModule } from './cupons/cupom.module';
 
 @Module({
   imports: [
@@ -22,7 +22,7 @@ import { DescontoModule } from './descontos/desconto.module';
       synchronize: true,
     }),
     ProdutoModule,
-    DescontoModule,
+    CupomModule,
   ],
   controllers: [AppController],
   providers: [AppService],
