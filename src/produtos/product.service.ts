@@ -12,7 +12,7 @@ import {
 } from 'nestjs-paginate';
 
 @Injectable()
-export class ProdutoService {
+export class ProductService {
   constructor(
     @InjectRepository(Produto)
     private readonly produtoRepository: Repository<Produto>,

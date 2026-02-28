@@ -7,7 +7,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ProdutoService } from './produto.service';
+import { ProdutoService } from './product.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 import type { PaginateQuery } from 'nestjs-paginate';
