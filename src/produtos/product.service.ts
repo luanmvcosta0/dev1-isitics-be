@@ -15,7 +15,7 @@ import {
 export class ProductService {
   constructor(
     @InjectRepository(Produto)
-    private readonly produtoRepository: Repository<Produto>,
+    private readonly productRepository: Repository<Produto>,
   ) {}
 
   public static readonly paginateConfig: PaginateConfig<Produto> = {
@@ -28,47 +28,47 @@ export class ProductService {
   };
 
   async createProduct(dto: CreateProdutoDto): Promise<Produto> {
-    const produto = this.produtoRepository.create(dto);
-    return this.produtoRepository.save(produto);
+    const produto = this.productRepository.create(dto);
+    return this.productRepository.save(produto);
   }
 
   async findAll(query: PaginateQuery): Promise<Paginated<Produto>> {
     return paginate(
       query,
-      this.produtoRepository,
-      ProdutoService.paginateConfig,
+      this.productRepository,
+      ProductService.paginateConfig,
     );
   }
 
   async findOne(id: string): Promise<Produto> {
-    const produto = await this.produtoRepository.findOne({
+    const product = await this.productRepository.findOne({
       where: { id: id },
     });
 
-    if (!produto) {
+    if (!product) {
       throw new NotFoundException('Produto não encontrado');
     }
 
-    return produto;
+    return product;
   }
 
   async update(id: string, dto: UpdateProdutoDto): Promise<Produto> {
-    const produto = await this.produtoRepository.findOne({
+    const product = await this.productRepository.findOne({
       where: { id: id },
     });
 
-    if (!produto) {
+    if (!product) {
       throw new NotFoundException('Produto não encontrado');
     }
 
-    Object.assign(produto, dto);
+    Object.assign(product, dto);
 
-    return await this.produtoRepository.save(produto);
+    return await this.productRepository.save(product);
   }
 
   async remove(id: string) {
     await this.findOne(id);
 
-    await this.produtoRepository.softDelete(id);
+    await this.productRepository.softDelete(id);
   }
 }
