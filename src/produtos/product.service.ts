@@ -1,15 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateProdutoDto } from './dto/create-produto.dto';
-import { UpdateProdutoDto } from './dto/update-produto.dto';
-import { Product } from './entites/produto.entity';
+import { Product } from './entites/product.entity';
 import {
   paginate,
   PaginateConfig,
   Paginated,
   PaginateQuery,
 } from 'nestjs-paginate';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @Injectable()
 export class ProductService {
@@ -27,7 +27,7 @@ export class ProductService {
     nullSort: 'last',
   };
 
-  async createProduct(dto: CreateProdutoDto): Promise<Product> {
+  async createProduct(dto: CreateProductDto): Promise<Product> {
     const produto = this.productRepository.create(dto);
     return this.productRepository.save(produto);
   }
@@ -52,7 +52,7 @@ export class ProductService {
     return product;
   }
 
-  async update(id: string, dto: UpdateProdutoDto): Promise<Product> {
+  async update(id: string, dto: UpdateProductDto): Promise<Product> {
     const product = await this.productRepository.findOne({
       where: { id: id },
     });
