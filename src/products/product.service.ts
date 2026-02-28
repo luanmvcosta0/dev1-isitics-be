@@ -19,9 +19,9 @@ export class ProductService {
   ) {}
 
   public static readonly paginateConfig: PaginateConfig<Product> = {
-    sortableColumns: ['id', 'nome', 'preco_original', 'preco_com_desconto'],
-    searchableColumns: ['nome', 'descricao'],
-    defaultSortBy: [['data_criacao', 'DESC']],
+    sortableColumns: ['id', 'name', 'price'],
+    searchableColumns: ['name', 'description'],
+    defaultSortBy: [['created_at', 'DESC']],
     defaultLimit: 10,
     maxLimit: 40,
     nullSort: 'last',
