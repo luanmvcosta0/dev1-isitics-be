@@ -14,7 +14,7 @@ import type { PaginateQuery } from 'nestjs-paginate';
 import { Paginate } from 'nestjs-paginate';
 
 @Controller('produto')
-export class ProdutoController {
+export class ProductController {
   constructor(private readonly produtoService: ProdutoService) {}
 
   @Post()
