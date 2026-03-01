@@ -32,9 +32,9 @@ console.log('\x1b[36m%s\x1b[0m', '  ███████║╚█████�
 console.log('\x1b[36m%s\x1b[0m', '  ╚══════╝ ╚═════╝ ╚══════╝ ╚═════╝');
 console.log('\x1b[36m%s\x1b[0m', '      Sistema de Gestão E-commerce');
 console.log('');
-console.log(`✅ Aplicação rodando na porta ${process.env.PORT}`);
+console.log(`🟢 Aplicação rodando na porta ${process.env.PORT}`);
 console.log('');
 
 bootstrap().catch((error) => {
-  console.error('❌ Ocorreu um erro ao iniciar a aplicação:', error);
+  console.error('🔴 Ocorreu um erro ao iniciar a aplicação:', error);
 });
