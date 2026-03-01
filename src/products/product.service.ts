@@ -76,17 +76,25 @@ export class ProductService {
   }
 
   async update(id: number, dto: UpdateProductDto): Promise<Product> {
-    const product = await this.productRepository.findOne({
-      where: { id: id },
-    });
+    const product = await this.findOne(id);
 
-    if (!product) {
-      throw new NotFoundException('Produto não encontrado');
+    if (dto.name) {
+      const normalizedName = this.normalizeName(dto.name);
+
+      const existingProduct = await this.productRepository.findOne({
+        where: { name: normalizedName },
+      });
+
+      if (existingProduct && existingProduct.id !== id) {
+        throw new ConflictException('Já existe um produto com esse nome');
+      }
+
+      product.name = normalizedName;
     }
 
     Object.assign(product, dto);
 
-    return await this.productRepository.save(product);
+    return this.productRepository.save(product);
   }
 
   async remove(id: number) {
