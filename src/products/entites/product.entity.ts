@@ -29,8 +29,14 @@ export class Product {
   @Column({ type: 'integer', name: 'stock', nullable: false })
   stock: number;
 
-  @ApiProperty({ description: 'Preço original do produto', example: 350 })
-  @Column({ type: 'float', name: 'price', nullable: false })
+  @ApiProperty({ description: 'Preço do produto', example: 350 })
+  @Column({
+    type: 'decimal',
+    name: 'price',
+    nullable: false,
+    precision: 6,
+    scale: 2,
+  })
   price: number;
 
   @ApiProperty({ description: 'Data da criação', example: '25/02/2026' })
