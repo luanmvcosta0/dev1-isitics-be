@@ -25,7 +25,7 @@ export class Product {
   @Column({ name: 'description', length: 150, nullable: false })
   description: string;
 
-  @ApiProperty({ description: 'Estoque atual do produto', example: 7 })
+  @ApiProperty({ description: 'Estoque do produto', example: 7 })
   @Column({ type: 'integer', name: 'stock', nullable: false })
   stock: number;
 
