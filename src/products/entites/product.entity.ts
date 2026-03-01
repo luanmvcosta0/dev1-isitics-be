@@ -12,7 +12,7 @@ import {
 export class Product {
   @ApiProperty({ description: 'Id do produto', example: 1 })
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
-  id: string;
+  id: number;
 
   @ApiProperty({ description: 'Nome do Produto', example: 'Mouse' })
   @Column({ name: 'name', length: 60, nullable: false })
