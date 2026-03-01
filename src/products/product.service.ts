@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entites/product.entity';
@@ -18,6 +22,10 @@ export class ProductService {
     private readonly productRepository: Repository<Product>,
   ) {}
 
+  private normalizeName(name: string): string {
+    return name.trim().replace(/\s+/g, ' ');
+  }
+
   public static readonly paginateConfig: PaginateConfig<Product> = {
     sortableColumns: ['id', 'name', 'price'],
     searchableColumns: ['name', 'description'],
@@ -28,8 +36,23 @@ export class ProductService {
   };
 
   async createProduct(dto: CreateProductDto): Promise<Product> {
-    const produto = this.productRepository.create(dto);
-    return this.productRepository.save(produto);
+    const normalizedName = this.normalizeName(dto.name);
+
+    const existingProduct = await this.productRepository.findOne({
+      where: { name: normalizedName },
+      withDeleted: false,
+    });
+
+    if (existingProduct) {
+      throw new ConflictException('Já existe um produto com este nome');
+    }
+
+    const product = this.productRepository.create({
+      ...dto,
+      name: normalizedName,
+    });
+
+    return this.productRepository.save(product);
   }
 
   async findAll(query: PaginateQuery): Promise<Paginated<Product>> {
