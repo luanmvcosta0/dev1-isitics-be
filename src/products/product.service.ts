@@ -23,7 +23,7 @@ export class ProductService {
     searchableColumns: ['name', 'description'],
     defaultSortBy: [['created_at', 'DESC']],
     defaultLimit: 10,
-    maxLimit: 40,
+    maxLimit: 20,
     nullSort: 'last',
   };
 
