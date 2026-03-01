@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'products' })
 export class Product {
   @ApiProperty({ description: 'Id do produto', example: 1 })
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
