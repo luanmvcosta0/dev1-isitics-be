@@ -15,7 +15,7 @@ export class Product {
   id: number;
 
   @ApiProperty({ description: 'Nome do Produto', example: 'Mouse' })
-  @Column({ name: 'name', length: 60, nullable: false })
+  @Column({ name: 'name', length: 100, nullable: false })
   name: string;
 
   @ApiProperty({

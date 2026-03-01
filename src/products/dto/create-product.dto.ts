@@ -5,8 +5,9 @@ export class CreateProductDto {
   @ApiProperty({ description: 'Nome do produto', example: 'Mouse' })
   @IsNotEmpty()
   @IsString()
-  @Length(0, 60, {
-    message: 'O nome do produto deve ter no máximo 60 caracteres',
+  @Length(3, 100, {
+    message:
+      'O nome do produto deve ter no mínimo 3 caracteres e no maximo 100',
   })
   name: string;
 
