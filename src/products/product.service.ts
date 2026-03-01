@@ -40,7 +40,7 @@ export class ProductService {
     );
   }
 
-  async findOne(id: string): Promise<Product> {
+  async findOne(id: number): Promise<Product> {
     const product = await this.productRepository.findOne({
       where: { id: id },
     });
@@ -52,7 +52,7 @@ export class ProductService {
     return product;
   }
 
-  async update(id: string, dto: UpdateProductDto): Promise<Product> {
+  async update(id: number, dto: UpdateProductDto): Promise<Product> {
     const product = await this.productRepository.findOne({
       where: { id: id },
     });
@@ -66,7 +66,7 @@ export class ProductService {
     return await this.productRepository.save(product);
   }
 
-  async remove(id: string) {
+  async remove(id: number) {
     await this.findOne(id);
 
     await this.productRepository.softDelete(id);
