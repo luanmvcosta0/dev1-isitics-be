@@ -44,10 +44,10 @@ export class Product {
   created_at: Date;
 
   @ApiProperty({ description: 'Data da edição', example: '25/02/2026' })
-  @UpdateDateColumn({ name: 'update_at', nullable: true })
+  @UpdateDateColumn({ name: 'updated_at', nullable: true })
   updated_at: Date;
 
   @ApiProperty({ description: 'Data da remoção', example: '25/02/2026' })
-  @DeleteDateColumn({ name: 'remove_at', nullable: true })
+  @DeleteDateColumn({ name: 'deleted_at', nullable: true })
   deleted_at: Date;
 }
