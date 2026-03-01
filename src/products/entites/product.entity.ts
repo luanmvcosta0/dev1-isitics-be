@@ -45,9 +45,9 @@ export class Product {
 
   @ApiProperty({ description: 'Data da edição', example: '25/02/2026' })
   @UpdateDateColumn({ name: 'update_at', nullable: true })
-  update_at: Date;
+  updated_at: Date;
 
   @ApiProperty({ description: 'Data da remoção', example: '25/02/2026' })
   @DeleteDateColumn({ name: 'remove_at', nullable: true })
-  remove_at: Date;
+  deleted_at: Date;
 }
