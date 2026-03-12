@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entites/product.entity';
@@ -18,6 +22,10 @@ export class ProductService {
     private readonly productRepository: Repository<Product>,
   ) {}
 
+  private normalizeName(name: string): string {
+    return name.trim().replace(/\s+/g, ' ');
+  }
+
   public static readonly paginateConfig: PaginateConfig<Product> = {
     sortableColumns: ['id', 'name', 'price'],
     searchableColumns: ['name', 'description'],
@@ -28,8 +36,23 @@ export class ProductService {
   };
 
   async createProduct(dto: CreateProductDto): Promise<Product> {
-    const produto = this.productRepository.create(dto);
-    return this.productRepository.save(produto);
+    const normalizedName = this.normalizeName(dto.name);
+
+    const existingProduct = await this.productRepository.findOne({
+      where: { name: normalizedName },
+      withDeleted: false,
+    });
+
+    if (existingProduct) {
+      throw new ConflictException('Já existe um produto com este nome');
+    }
+
+    const product = this.productRepository.create({
+      ...dto,
+      name: normalizedName,
+    });
+
+    return this.productRepository.save(product);
   }
 
   async findAll(query: PaginateQuery): Promise<Paginated<Product>> {
@@ -40,7 +63,7 @@ export class ProductService {
     );
   }
 
-  async findOne(id: string): Promise<Product> {
+  async findOne(id: number): Promise<Product> {
     const product = await this.productRepository.findOne({
       where: { id: id },
     });
@@ -52,21 +75,29 @@ export class ProductService {
     return product;
   }
 
-  async update(id: string, dto: UpdateProductDto): Promise<Product> {
-    const product = await this.productRepository.findOne({
-      where: { id: id },
-    });
+  async update(id: number, dto: UpdateProductDto): Promise<Product> {
+    const product = await this.findOne(id);
 
-    if (!product) {
-      throw new NotFoundException('Produto não encontrado');
+    if (dto.name) {
+      const normalizedName = this.normalizeName(dto.name);
+
+      const existingProduct = await this.productRepository.findOne({
+        where: { name: normalizedName },
+      });
+
+      if (existingProduct && existingProduct.id !== id) {
+        throw new ConflictException('Já existe um produto com esse nome');
+      }
+
+      product.name = normalizedName;
     }
 
     Object.assign(product, dto);
 
-    return await this.productRepository.save(product);
+    return this.productRepository.save(product);
   }
 
-  async remove(id: string) {
+  async remove(id: number) {
     await this.findOne(id);
 
     await this.productRepository.softDelete(id);
