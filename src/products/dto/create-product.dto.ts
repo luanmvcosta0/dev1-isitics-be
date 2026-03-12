@@ -1,12 +1,22 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString, Length } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  Length,
+  Matches,
+} from 'class-validator';
 
 export class CreateProductDto {
   @ApiProperty({ description: 'Nome do produto', example: 'Mouse' })
   @IsNotEmpty()
   @IsString()
-  @Length(0, 60, {
-    message: 'O nome do produto deve ter no máximo 60 caracteres',
+  @Length(3, 100, {
+    message:
+      'O nome do produto deve ter no mínimo 3 caracteres e no maximo 100',
+  })
+  @Matches(/^[a-zA-Z0-9\s\-_,.]+$/, {
+    message: 'O nome do produto contém caracteres invalidos',
   })
   name: string;
 
@@ -16,15 +26,15 @@ export class CreateProductDto {
   })
   @IsNotEmpty()
   @IsString()
-  @Length(0, 170, { message: 'A descriçãp deve ter no máximo 170 caracteres' })
+  @Length(0, 170, { message: 'A descrição deve ter no máximo 170 caracteres' })
   description: string;
 
-  @ApiProperty({ description: 'Estoque atual do produto', example: 7 })
+  @ApiProperty({ description: 'Estoque do produto', example: 7 })
   @IsNotEmpty()
   @IsNumber()
   stock: number;
 
-  @ApiProperty({ description: 'Preço original do produto', example: 350 })
+  @ApiProperty({ description: 'Preço do produto', example: 350 })
   @IsNotEmpty()
   @IsNumber()
   price: number;
