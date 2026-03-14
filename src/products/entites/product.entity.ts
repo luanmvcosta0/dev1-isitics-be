@@ -34,7 +34,7 @@ export class Product {
     type: 'decimal',
     name: 'price',
     nullable: false,
-    precision: 6,
+    precision: 9,
     scale: 2,
   })
   price: number;
