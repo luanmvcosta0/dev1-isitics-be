@@ -23,7 +23,7 @@ export class Product {
     example: 'O Mouse Ergonômico é a escolha ideal para quem busca conforto',
   })
   @Column({ name: 'description', length: 150, nullable: false })
-  description: string;
+  description?: string;
 
   @ApiProperty({ description: 'Estoque do produto', example: 7 })
   @Column({ type: 'integer', name: 'stock', nullable: false })
