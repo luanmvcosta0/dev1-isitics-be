@@ -5,6 +5,8 @@ import {
   IsString,
   Length,
   Matches,
+  Max,
+  Min,
 } from 'class-validator';
 
 export class CreateProductDto {
@@ -32,6 +34,8 @@ export class CreateProductDto {
   @ApiProperty({ description: 'Estoque do produto', example: 7 })
   @IsNotEmpty()
   @IsNumber()
+  @Min(0, { message: 'O stock deve ser no mínimo 0 0 ' })
+  @Max(999999, { message: 'O stock deve ser no máximo 0 999999 ' })
   stock: number;
 
   @ApiProperty({ description: 'Preço do produto', example: 350 })
