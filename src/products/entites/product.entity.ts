@@ -40,7 +40,7 @@ export class Product {
   price: number;
 
   @ApiProperty({ description: 'Data da criação', example: '25/02/2026' })
-  @CreateDateColumn({ name: 'created_at' })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp', update: false })
   created_at: Date;
 
   @ApiProperty({ description: 'Data da edição', example: '25/02/2026' })
