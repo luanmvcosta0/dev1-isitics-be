@@ -23,7 +23,7 @@ export class Product {
     example: 'O Mouse Ergonômico é a escolha ideal para quem busca conforto',
   })
   @Column({ name: 'description', length: 150, nullable: false })
-  description: string;
+  description?: string;
 
   @ApiProperty({ description: 'Estoque do produto', example: 7 })
   @Column({ type: 'integer', name: 'stock', nullable: false })
@@ -34,13 +34,13 @@ export class Product {
     type: 'decimal',
     name: 'price',
     nullable: false,
-    precision: 6,
+    precision: 9,
     scale: 2,
   })
   price: number;
 
   @ApiProperty({ description: 'Data da criação', example: '25/02/2026' })
-  @CreateDateColumn({ name: 'created_at' })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp', update: false })
   created_at: Date;
 
   @ApiProperty({ description: 'Data da edição', example: '25/02/2026' })
