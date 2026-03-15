@@ -1,4 +1,7 @@
+import { Column } from 'typeorm';
+
 export class CouponEntity {
+  @Column({ name: 'code', nullable: false, unique: true })
   code: string;
   type: string;
   value: number;
