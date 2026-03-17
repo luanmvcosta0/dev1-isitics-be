@@ -12,5 +12,7 @@ export class CouponEntity {
 
   @Column({ name: 'oneShot', nullable: false })
   oneShot: boolean;
+
+  @Column({ name: 'valid_from' })
   valid_from: Date;
 }
