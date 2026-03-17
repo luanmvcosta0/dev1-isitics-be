@@ -7,6 +7,7 @@ export class CouponEntity {
   @Column({ name: 'type', nullable: false })
   type: string;
 
+  @Column({ name: 'value', nullable: false })
   value: number;
   oneShot: boolean;
   valid_from: Date;
