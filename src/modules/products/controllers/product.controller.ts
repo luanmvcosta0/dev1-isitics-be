@@ -10,9 +10,9 @@ import {
 } from '@nestjs/common';
 import type { PaginateQuery } from 'nestjs-paginate';
 import { Paginate } from 'nestjs-paginate';
-import { ProductService } from './product.service';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { CreateProductDto } from '../dto/create-product.dto';
+import { ProductService } from '../services/product.service';
+import { UpdateProductDto } from '../dto/update-product.dto';
 
 @Controller('products')
 export class ProductController {
