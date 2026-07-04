@@ -1,98 +1,117 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🛒 E-commerce API — Desafio Dev 1 ISI-TICs (Backend)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API REST de gestão de produtos de e-commerce, desenvolvida como solução para a **prova de Desenvolvedor 1 do Instituto SENAI de Inovação para Tecnologias da Informação e Comunicação (ISI-TICs)**.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Construída com **NestJS + TypeScript**, com foco em boas práticas: validação rigorosa de entrada, paginação/busca/ordenação, soft delete, documentação Swagger e ambiente 100% containerizado com Docker.
 
-## Description
+## ⚙️ Funcionalidades
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Produtos (CRUD completo)
 
-## Project setup
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| `POST` | `/products` | Cria um produto (com normalização do nome e verificação de duplicidade) |
+| `GET` | `/products` | Lista produtos com **paginação, busca e ordenação** |
+| `GET` | `/products/:id` | Busca um produto por ID |
+| `PATCH` | `/products/:id` | Atualiza um produto (revalidando unicidade do nome) |
+| `DELETE` | `/products/:id` | Remove um produto (**soft delete**) |
 
-```bash
-$ npm install
+**Listagem** (via `nestjs-paginate`):
+- Ordenável por `id`, `name` e `price`
+- Busca textual em `name` e `description`
+- Ordenação padrão por data de criação (mais recentes primeiro)
+- Limite padrão de 10 itens por página (máx. 20)
+
+Exemplo: `GET /products?page=1&limit=10&search=mouse&sortBy=price:ASC`
+
+### Cupons de desconto 🚧
+
+Módulo em desenvolvimento — já conta com a modelagem da entidade (código único, tipo, valor, uso único, vigência), DTO com validação de formato e serviço de normalização de códigos (remoção de acentos, case-insensitive e bloqueio de códigos reservados).
+
+## 🛡️ Regras de negócio e validações
+
+- **Nome único**: não é permitido cadastrar produtos com nomes duplicados (comparação feita sobre o nome normalizado — trim + espaços colapsados)
+- **Validação de entrada** com `class-validator` + `ValidationPipe` global configurado com `whitelist` e `forbidNonWhitelisted` (campos não previstos no DTO são rejeitados)
+- **Preço flexível**: aceita formato brasileiro (`"1.234,56"`) e o converte para número
+- **Soft delete**: produtos removidos são marcados com `deleted_at` em vez de excluídos fisicamente, preservando histórico
+- **Timestamps automáticos**: `created_at`, `updated_at` e `deleted_at` gerenciados pelo TypeORM
+- **Erros semânticos**: `409 Conflict` para duplicidade e `404 Not Found` para produto inexistente
+
+## 📖 Documentação (Swagger)
+
+A API é documentada com **Swagger/OpenAPI**, com todas as entidades e DTOs anotados (`@ApiProperty` com descrições e exemplos).
+
+Com a aplicação rodando, acesse:
+
+```
+http://localhost:3001/api
 ```
 
-## Compile and run the project
+## 🛠️ Tecnologias
 
-```bash
-# development
-$ npm run start
+- **NestJS 11** + **TypeScript**
+- **TypeORM** + **PostgreSQL 16**
+- **nestjs-paginate** — paginação, busca e ordenação
+- **class-validator / class-transformer** — validação e transformação de DTOs
+- **Swagger (@nestjs/swagger)** — documentação da API
+- **Docker + Docker Compose** — API e banco containerizados
+- **Jest** — estrutura de testes
+- **ESLint + Prettier** — padronização de código
 
-# watch mode
-$ npm run start:dev
+## 📁 Estrutura
 
-# production mode
-$ npm run start:prod
+```
+src/
+├── modules/
+│   ├── products/
+│   │   ├── controllers/product.controller.ts
+│   │   ├── services/product.service.ts
+│   │   ├── entites/product.entity.ts
+│   │   ├── dto/create-product.dto.ts
+│   │   ├── dto/update-product.dto.ts
+│   │   └── product.module.ts
+│   └── coupon/            # 🚧 em desenvolvimento
+│       ├── entities/coupon.entity.ts
+│       ├── dto/create-coupon.dto.ts
+│       └── services/coupon.service.ts
+├── app.module.ts
+└── main.ts                # Bootstrap + ValidationPipe global + Swagger
 ```
 
-## Run tests
+## ▶️ Como executar
+
+### Com Docker (recomendado)
+
+Sobe a API e o PostgreSQL com um único comando:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+git clone https://github.com/luanmvcosta0/dev1-isitics-be.git
+cd dev1-isitics-be
+docker-compose up --build
 ```
 
-## Deployment
+- API: `http://localhost:3001`
+- Swagger: `http://localhost:3001/api`
+- PostgreSQL: `localhost:5433` (mapeado para evitar conflito com instâncias locais)
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### Localmente (sem Docker)
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Pré-requisitos: Node.js e PostgreSQL rodando.
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm install
+npm run start:dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Configure as variáveis de ambiente (`DATABASE_HOST`, `DATABASE_PORT`, `DATABASE_USER`, `DATABASE_PASSWORD`, `DATABASE_NAME`, `PORT`) conforme seu ambiente.
 
-## Resources
+### Testes
 
-Check out a few resources that may come in handy when working with NestJS:
+```bash
+npm run test        # testes unitários
+npm run test:cov    # cobertura
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## 🎯 Contexto
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Solução desenvolvida para a **prova técnica de Desenvolvedor 1 do ISI-TICs (Instituto SENAI de Inovação em TICs)**, demonstrando construção de API REST com NestJS aplicando validações robustas, regras de negócio, paginação, documentação e containerização.
